@@ -1,0 +1,53 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JenisController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\FrontController;
+use App\Http\Middleware\isAdmin;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+| 
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', [FrontController::class, 'index']);
+
+Auth::routes();
+Route::get('/search', [BeritaController::class, 'search'])->name('berita.search');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::prefix('admin')->middleware('auth', isAdmin::class)->group(function () {
+    Route::resource('berita', BeritaController::class);
+    Route::resource('kategori', KategoriController::class);
+});
+
+Route::resource('jenis', JenisController::class);
+Route::resource('produk', ProdukController::class);
+
+Route::get('/about', function () {
+    return view('about');
+});
+
+Route::get('/category', function () {
+    return view('category');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/single_post', function () {
+    return view('single_post');
+});
+Route::get('/starter_page', function () {
+    return view('starter_page');
+});
