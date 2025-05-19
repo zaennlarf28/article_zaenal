@@ -21,7 +21,7 @@ use App\Http\Middleware\isAdmin;
 
 Route::get('/', [FrontController::class, 'index']);
 
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::get('/search', [BeritaController::class, 'search'])->name('berita.search');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -33,21 +33,29 @@ Route::prefix('admin')->middleware('auth', isAdmin::class)->group(function () {
 Route::resource('jenis', JenisController::class);
 Route::resource('produk', ProdukController::class);
 
-Route::get('/about', function () {
-    return view('about');
+Route::get('/konsultasi', function () {
+    return view('konsultasi');
 });
 
-Route::get('/category', function () {
-    return view('category');
+Route::get('/berita_sehat', function () {
+    return view('berita_sehat');
 });
 
 Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/single_post', function () {
-    return view('single_post');
+Route::get('/wellness', function () {
+    return view('wellness');
 });
 Route::get('/starter_page', function () {
     return view('starter_page');
+});
+
+Route::get('/berita/detail/{id}', [BeritaController::class, 'detail'])->name('berita.detail');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function (){
+    Route::get('/', function () {
+        return view('admin.index'); 
+    });
 });

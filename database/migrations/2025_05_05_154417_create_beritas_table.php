@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('beritas', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->string('judul');
-            $table->string('deskripsi');
+            $table->text('deskripsi');
             $table->string('penulis');
             $table->string('gambar');
             $table->unsignedBigInteger('id_kategori');

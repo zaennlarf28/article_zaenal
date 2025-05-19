@@ -40,7 +40,7 @@ class BeritaController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|unique:beritas', 
-            'deskripsi'  => 'required',
+            'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
         $berita  = new Berita;
@@ -98,7 +98,7 @@ class BeritaController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required', 
-            'deskripsi'  => 'required',
+            'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
         $berita  = Berita::findOrfail($id);
@@ -120,6 +120,13 @@ class BeritaController extends Controller
         session()->flash('success','Data Berhasil ditambahkan');
         return redirect()->route('berita.index');
     }
+
+    public function detail($id)
+{
+    $data = Berita::findOrFail($id);
+    return view('berita.detail', compact('data'));
+}
+
 
     /**
      * Remove the specified resource from storage.
