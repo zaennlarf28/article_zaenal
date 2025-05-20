@@ -90,8 +90,15 @@
 
     </section><!-- /Slider Section -->
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-      <h2 class="text-center">Artikel Kesehatan Terkini</h2>
+    <h2 class="text-center mb-3">Artikel Kesehatan Terkini</h2>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        @foreach ($berita->take(10) as $data)
+            <div>{{ $data->kategori->nama_kategori }}</div>
+        @endforeach
     </div>
+    </div>
+
+
     <!-- Trending Category Section -->
     <section id="trending-category" class="trending-category section">
 
@@ -112,9 +119,9 @@
                                 </div>   
                             @endif
                 </a>            
-                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
+                <div class="post-meta">{{ $data->created_at->format('M jS \'y') }}</div>
                 <h2><a href="{{ route('berita.detail', $data->id) }}">{{ \Illuminate\Support\Str::limit($data->judul, 40) }}</a></h2>
-                <p class="mb-4 d-block"><a href="{{ route('berita.detail', $data->id) }}">{{ \Illuminate\Support\Str::limit($data->deskripsi, 150) }}</a></p>
+                <p class="mb-4 d-block"><a href="{{ route('berita.detail', $data->id) }}">{{ \Illuminate\Support\Str::limit($data->deskripsi, 300) }}</a></p>
 
                 <div class="d-flex align-items-center author">
                   <div class="name">
@@ -149,7 +156,9 @@
                             </a>
                             <div>
                                 <div class="text-muted small mb-1">
-                                    {{ ucfirst($data->jenis_berita ?? 'Kategori') }} • Jul 5th '22
+                                  <a href="{{ route('berita.detail', $data->id) }}">
+                                    {{ $data->created_at->format('M jS \'y') }}<br>{{ \Illuminate\Support\Str::limit($data->kategori->nama_kategori, 50) }}
+                                  </a>
                                 </div>
                                 <h5 class="mb-1">
                                     <a href="{{ route('berita.detail', $data->id) }}" class="text-decoration-none text-dark">
@@ -185,7 +194,9 @@
                             </a>
                             <div>
                                 <div class="text-muted small mb-1">
-                                    {{ ucfirst($data->jenis_berita ?? 'Kategori') }} • Jul 5th '22
+                                  <a href="{{ route('berita.detail', $data->id) }}">
+                                    {{ $data->created_at->format('M jS \'y') }}<br>{{ \Illuminate\Support\Str::limit($data->kategori->nama_kategori, 50) }}
+                                  </a>
                                 </div>
                                 <h5 class="mb-1">
                                     <a href="{{ route('berita.detail', $data->id) }}" class="text-decoration-none text-dark">

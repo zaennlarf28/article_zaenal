@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
-use App\Models\Berita;
+use App\Models\Sehat;
 use Illuminate\Http\Request;
 
-class BeritaController extends Controller
+class SehatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,10 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $berita = Berita::all();
-        return view('berita.index', compact('berita'));
+        // menampilkan data berdasarkan tanggal yang paling akhir 
+        // melalui model sehat
+        $sehat = Sehat::latest()->get();
+        return view('sehat.index',compact('sehat'));
     }
 
     /**
@@ -26,8 +27,7 @@ class BeritaController extends Controller
      */
     public function create()
     {
-        $kategori = Kategori::all();
-        return view('berita.create', compact('kategori'));
+        return view('sehat.create');
     }
 
     /**
@@ -43,23 +43,21 @@ class BeritaController extends Controller
             'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
-        $berita  = new Berita;
-        $berita->judul = $request->judul;
-        $berita->deskripsi = $request->deskripsi;
-        $berita->penulis = $request->penulis;
+        $sehat  = new Sehat;
+        $sehat->judul = $request->judul;
+        $sehat->deskripsi = $request->deskripsi;
+        $sehat->penulis = $request->penulis;
+       
 
         if ($request->hasFile('gambar')) {
-            $berita->deleteImage(); // pastikan method ini ada di model
+            $sehat->deleteImage(); // pastikan method ini ada di model
             $img  = $request->file('gambar');
             $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->storeAs('public/berita', $name); // simpan di storage/app/public/berita
-            $berita->gambar = $name;
+            $img->storeAs('public/sehat', $name); // simpan di storage/app/public/sehat
+            $sehat->gambar = $name;
         }
-        $berita->id_kategori = $request->id_kategori;
-        $berita->save();
-
-        session()->flash('success','Data Berhasil ditambahkan');
-        return redirect()->route('berita.index');
+        $sehat->save();
+        return redirect()->route('sehat.index');
     }
 
     /**
@@ -70,8 +68,8 @@ class BeritaController extends Controller
      */
     public function show($id)
     {
-        $berita = Berita::findOrfail($id);
-        return view('berita.show', compact('berita'));
+        $sehat = Sehat::findOrFail($id);
+        return view('sehat.show', compact('sehat'));
     }
 
     /**
@@ -82,9 +80,8 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        $berita = Berita::findOrFail($id);
-        $kategori = kategori::all();
-        return view('berita.edit', compact('berita','kategori'));
+        $sehat = Sehat::findOrFail($id);
+        return view('sehat.edit', compact('sehat'));
     }
 
     /**
@@ -96,37 +93,33 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+         $validated = $request->validate([
             'judul' => 'required', 
             'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
-        $berita  = Berita::findOrfail($id);
-        $berita->judul = $request->judul;
-        $berita->deskripsi = $request->deskripsi;
-        $berita->penulis = $request->penulis;
+        $sehat  = Sehat::findOrfail($id);
+        $sehat->judul = $request->judul;
+        $sehat->deskripsi = $request->deskripsi;
+        $sehat->penulis = $request->penulis;
+       
 
         if ($request->hasFile('gambar')) {
-            $berita->deleteimage();
+            $sehat->deleteimage();
             $img  = $request->file('gambar');
             $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->move('storage/berita', $name);
-            $berita->gambar = $name;
+            $img->move('storage/sehat', $name);
+            $sehat->gambar = $name;
         }
-
-        $berita->id_kategori = $request->id_kategori;
-        $berita->save();
-
-        session()->flash('success','Data Berhasil ditambahkan');
-        return redirect()->route('berita.index');
+        
+        $sehat->save();
+        return redirect()->route('sehat.index');
     }
-
     public function detail($id)
 {
-    $data = Berita::findOrFail($id);
-    return view('berita.detail', compact('data'));
+    $data = Sehat::findOrFail($id);
+    return view('sehat.detail', compact('data'));
 }
-
 
     /**
      * Remove the specified resource from storage.
@@ -136,18 +129,8 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        $berita = Berita::findOrFail($id);
-        
-        $berita->delete();
-        return Redirect()->route('berita.index')->with('success','Data Berhasil Dihapus');
+        $sehat = Sehat::findOrFail($id);
+        $sehat->delete();
+        return redirect()->route('sehat.index');
     }
-    
-    public function kategori($slug)
-{
-    $kategori = Kategori::where('slug', $slug)->firstOrFail();
-    $beritas = Berita::where('kategori_id', $kategori->id)->latest()->get();
-
-    return view('kategori', compact('kategori', 'beritas'));
-}
-
 }
