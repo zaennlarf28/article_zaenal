@@ -1,4 +1,4 @@
-@extends('layouts.plainsehat')
+@extends('layouts.plain_berita_sehat')
 
 @section('content')
 <!DOCTYPE html>

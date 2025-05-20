@@ -63,19 +63,80 @@
 
         <div class="row gy-4">
 
-          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p class="who-we-are">Who We Are</p>
-            <h3>Unleashing Potential with Creative Strategy</h3>
-            <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-            </ul>
-          </div>
+        <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+  <h3 class="mb-4">Kalkulator BMI (Body Mass Index)</h3>
+
+  <!-- Gender -->
+  <!-- Gender Pilihan -->
+<div class="d-flex justify-content-center mb-3">
+  <div class="form-check me-4 text-center">
+    <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+    <label class="form-check-label" for="male">
+      <img src="https://img.icons8.com/ios-filled/100/000000/user-male-circle.png" width="60" /><br>
+      <span class="fw-bold">Laki-laki</span>
+    </label>
+  </div>
+  <div class="form-check text-center">
+    <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+    <label class="form-check-label" for="female">
+      <img src="https://img.icons8.com/ios-filled/100/000000/user-female-circle.png" width="60" /><br>
+      <span class="fw-bold">Perempuan</span>
+    </label>
+  </div>
+</div>
+
+
+  <!-- Form -->
+  <form id="bmiForm" class="p-3 border rounded bg-light">
+    <div class="mb-3">
+      <label for="usia" class="form-label">Usia</label>
+      <div class="input-group">
+        <input type="number" id="usia" class="form-control" required>
+        <span class="input-group-text">thn</span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="berat" class="form-label">Berat Badan</label>
+      <div class="input-group">
+        <input type="number" id="berat" class="form-control" required>
+        <span class="input-group-text">kg</span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="tinggi" class="form-label">Tinggi Badan</label>
+      <div class="input-group">
+        <input type="number" id="tinggi" class="form-control" required>
+        <span class="input-group-text">cm</span>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button type="reset" class="btn btn-outline-secondary w-50 me-2">Reset</button>
+      <button type="submit" class="btn btn-success w-50">Hitung</button>
+    </div>
+  </form>
+
+  <!-- Hasil -->
+  <div id="hasilBmi" class="mt-4 p-4 border rounded" style="display:none; background-color:#f9f9f9;">
+    <h4 class="fw-bold">Hasil BMI Anda</h4>
+    <p class="fs-3 fw-bold" id="bmiValue" style="color: #2ecc71;"></p>
+    <p id="kategoriBmi" class="mb-2 fw-semibold"></p>
+    <div class="mb-3">
+      <div class="d-flex justify-content-between small">
+        <span><strong>BMI</strong></span><span><strong>Klasifikasi</strong></span>
+      </div>
+      <ul class="list-group list-group-flush small">
+        <li class="list-group-item d-flex justify-content-between px-1"><span>< 18.5</span><span>Kurus</span></li>
+        <li class="list-group-item d-flex justify-content-between px-1"><span>18.5 – 24.9</span><span>Normal</span></li>
+        <li class="list-group-item d-flex justify-content-between px-1"><span>25 – 29.9</span><span>Gemuk</span></li>
+        <li class="list-group-item d-flex justify-content-between px-1"><span>30 – 34.9</span><span>Obesitas 1</span></li>
+        <li class="list-group-item d-flex justify-content-between px-1"><span>>= 35</span><span>Obesitas 2</span></li>
+      </ul>
+    </div>
+    <div id="saranBmi" class="fw-semibold"></div>
+  </div>
+</div>
+
 
           <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
             <div class="row gy-4">
@@ -288,6 +349,59 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+  document.getElementById("bmiForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const berat = parseFloat(document.getElementById("berat").value);
+    const tinggi = parseFloat(document.getElementById("tinggi").value) / 100; // cm ke meter
+    const usia = parseInt(document.getElementById("usia").value);
+    const gender = document.querySelector('input[name="gender"]:checked');
+
+    // Validasi gender (kalau belum dipilih)
+    if (!gender) {
+      alert("Silakan pilih jenis kelamin terlebih dahulu.");
+      return;
+    }
+
+    const bmi = berat / (tinggi * tinggi);
+
+    let kategori = '';
+    let warna = '';
+    let saran = '';
+
+    if (bmi < 18.5) {
+      kategori = "Kurus";
+      warna = "#3498db";
+      saran = "Perbaiki pola makan dan asupan nutrisi harian.";
+    } else if (bmi < 25) {
+      kategori = "Normal";
+      warna = "#2ecc71";
+      saran = "Pertahankan pola makan seimbang dan olahraga rutin.";
+    } else if (bmi < 30) {
+      kategori = "Gemuk";
+      warna = "#f39c12";
+      saran = "Kurangi kalori dan tingkatkan aktivitas fisik.";
+    } else if (bmi < 35) {
+      kategori = "Obesitas 1";
+      warna = "#e67e22";
+      saran = "Konsultasi ke ahli gizi dan lakukan olahraga teratur.";
+    } else {
+      kategori = "Obesitas 2";
+      warna = "#e74c3c";
+      saran = "Perlu penanganan medis dan diet intensif.";
+    }
+
+    document.getElementById("bmiValue").innerText = bmi.toFixed(1);
+    document.getElementById("bmiValue").style.color = warna;
+    document.getElementById("kategoriBmi").innerText = "Kategori: " + kategori;
+    document.getElementById("saranBmi").innerHTML = "<strong>Saran:</strong> " + saran;
+    document.getElementById("hasilBmi").style.display = "block";
+  });
+  </script>
+
+
+
 
 </body>
 
