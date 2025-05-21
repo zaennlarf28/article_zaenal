@@ -20,6 +20,18 @@ class FrontController extends Controller
        $sehat = Sehat::all();
        return view('berita_sehat', compact('sehat'));
     }
+
+    public function diet()
+    {
+       $diet = Sehat::all();
+       return view('wellness', compact('diet'));
+    }
+
+    public function konsultasi()
+    {
+       $konsultasi = Konsultasi::all();
+       return view('konsultasi', compact('konsultasi'));
+    }
 }
 
 

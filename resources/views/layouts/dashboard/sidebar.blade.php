@@ -19,6 +19,14 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Berita sehat
                             </a>
+                            <a class="nav-link" href="{{ route('diet.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Wellness & Diet
+                            </a>
+                            <a class="nav-link" href="{{ route('konsultasi.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Konsultasi
+                            </a>
                             @endif
                         </div>
                     </div>

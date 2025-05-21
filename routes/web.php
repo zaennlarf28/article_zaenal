@@ -6,6 +6,8 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\SehatController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\DietController;
+use App\Http\Controllers\KonsultasiController;
 use App\Http\Controllers\FrontController;
 use App\Http\Middleware\isAdmin;
 
@@ -22,6 +24,9 @@ use App\Http\Middleware\isAdmin;
 
 Route::get('/', [FrontController::class, 'index']);
 Route::get('/berita_sehat', [FrontController::class, 'sehat']);
+Route::get('/wellness', [FrontController::class, 'diet']);
+Route::get('/konsultasi', [FrontController::class, 'konsultasi']);
+
 Route::get('/kategori/{slug}', [BeritaController::class, 'kategori'])->name('kategori.show');
 
 
@@ -35,6 +40,8 @@ Route::prefix('admin')->middleware('auth', isAdmin::class)->group(function () {
     Route::resource('berita', BeritaController::class);
     Route::resource('kategori', KategoriController::class);
     Route::resource('sehat', SehatController::class);
+    Route::resource('diet', DietController::class);
+    Route::resource('konsultasi', KonsultasiController::class);
 });
 
 
@@ -42,17 +49,11 @@ Route::resource('jenis', JenisController::class);
 Route::resource('produk', ProdukController::class);
 
 
-Route::get('/konsultasi', function () {
-    return view('konsultasi');
-});
 
 Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/wellness', function () {
-    return view('wellness');
-});
 Route::get('/starter_page', function () {
     return view('starter_page');
 });

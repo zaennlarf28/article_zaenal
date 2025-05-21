@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sehat;
+use App\Models\Diet;
 use Illuminate\Http\Request;
 
-class SehatController extends Controller
+class DietController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class SehatController extends Controller
     public function index()
     {
         // menampilkan data berdasarkan tanggal yang paling akhir 
-        // melalui model sehat
-        $sehat = Sehat::latest()->get();
-        return view('sehat.index',compact('sehat'));
+        // melalui model diet
+        $diet = Diet::latest()->get();
+        return view('diet.index',compact('diet'));
     }
 
     /**
@@ -27,7 +27,7 @@ class SehatController extends Controller
      */
     public function create()
     {
-        return view('sehat.create');
+        return view('diet.create');
     }
 
     /**
@@ -43,21 +43,21 @@ class SehatController extends Controller
             'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
-        $sehat  = new Sehat;
-        $sehat->judul = $request->judul;
-        $sehat->deskripsi = $request->deskripsi;
-        $sehat->penulis = $request->penulis;
+        $diet  = new Diet;
+        $diet->judul = $request->judul;
+        $diet->deskripsi = $request->deskripsi;
+        $diet->penulis = $request->penulis;
        
 
         if ($request->hasFile('gambar')) {
-            $sehat->deleteImage(); // pastikan method ini ada di model
+            $diet->deleteImage(); // pastikan method ini ada di model
             $img  = $request->file('gambar');
             $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->storeAs('public/sehat', $name); // simpan di storage/app/public/sehat
-            $sehat->gambar = $name;
+            $img->storeAs('public/diet', $name); // simpan di storage/app/public/diet
+            $diet->gambar = $name;
         }
-        $sehat->save();
-        return redirect()->route('sehat.index');
+        $diet->save();
+        return redirect()->route('diet.index');
     }
 
     /**
@@ -68,8 +68,8 @@ class SehatController extends Controller
      */
     public function show($id)
     {
-        $sehat = Sehat::findOrFail($id);
-        return view('sehat.show', compact('sehat'));
+        $diet = Diet::findOrFail($id);
+        return view('diet.show', compact('diet'));
     }
 
     /**
@@ -80,8 +80,8 @@ class SehatController extends Controller
      */
     public function edit($id)
     {
-        $sehat = Sehat::findOrFail($id);
-        return view('sehat.edit', compact('sehat'));
+        $diet = Diet::findOrFail($id);
+        return view('diet.edit', compact('diet'));
     }
 
     /**
@@ -98,28 +98,27 @@ class SehatController extends Controller
             'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
-        $sehat  = Sehat::findOrfail($id);
-        $sehat->judul = $request->judul;
-        $sehat->deskripsi = $request->deskripsi;
-        $sehat->penulis = $request->penulis;
+        $diet  = Diet::findOrfail($id);
+        $diet->judul = $request->judul;
+        $diet->deskripsi = $request->deskripsi;
+        $diet->penulis = $request->penulis;
        
 
         if ($request->hasFile('gambar')) {
-            $sehat->deleteimage();
+            $diet->deleteimage();
             $img  = $request->file('gambar');
             $name = rand(1000, 9999) . $img->getClientOriginalName();
-            $img->move('storage/sehat', $name);
-            $sehat->gambar = $name;
+            $img->move('storage/diet', $name);
+            $diet->gambar = $name;
         }
         
-        $sehat->save();
-        return redirect()->route('sehat.index');
+        $diet->save();
+        return redirect()->route('diet.index');
     }
-    
     public function detail($id)
 {
-    $data = Sehat::findOrFail($id);
-    return view('sehat.detail', compact('data'));
+    $data = Diet::findOrFail($id);
+    return view('diet.detail', compact('data'));
 }
 
     /**
@@ -130,8 +129,8 @@ class SehatController extends Controller
      */
     public function destroy($id)
     {
-        $sehat = Sehat::findOrFail($id);
-        $sehat->delete();
-        return redirect()->route('sehat.index');
+        $diet = Diet::findOrFail($id);
+        $diet->delete();
+        return redirect()->route('diet.index');
     }
 }
