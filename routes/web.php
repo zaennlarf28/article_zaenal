@@ -22,10 +22,12 @@ use App\Http\Middleware\isAdmin;
 |
 */
 
-Route::get('/', [FrontController::class, 'index']);
+
 Route::get('/berita_sehat', [FrontController::class, 'sehat']);
 Route::get('/wellness', [FrontController::class, 'diet']);
 Route::get('/konsultasi', [FrontController::class, 'konsultasi']);
+Route::get('/', [FrontController::class, 'index'])->name('beranda');
+
 
 Route::get('/kategori/{slug}', [BeritaController::class, 'kategori'])->name('kategori.show');
 
@@ -60,7 +62,9 @@ Route::get('/starter_page', function () {
 
 
 Route::get('/berita/detail/{id}', [BeritaController::class, 'detail'])->name('berita.detail');
+Route::get('/berita/kategori_sama/{id}', [BeritaController::class, 'kategori_sama'])->name('berita.kategori_sama');
 Route::get('/sehat/detail/{id}', [SehatController::class, 'detail'])->name('sehat.detail');
+Route::get('/kategori/{id}', [BeritaController::class, 'byKategori'])->name('berita.kategori');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function (){
     Route::get('/', function () {

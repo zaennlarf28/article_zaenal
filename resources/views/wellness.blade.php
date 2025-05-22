@@ -136,129 +136,36 @@
     <div id="saranBmi" class="fw-semibold"></div>
   </div>
 </div>
-        @foreach ($diet->take(1) as $data)
+        
           <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
             <div class="row gy-4">
-              <div class="col-lg-6">
-                @if ($data->gambar)
-                  <img src="{{ asset('storage/diet/' . $data->gambar) }}"
-                       alt="Gambar"
-                       class="img-fluid"
-                       style="width: 200px; height: 150px; object-fit: cover;">
-                @else
-                  <div class="bg-light d-flex align-items-center justify-content-center"
-                       style="width: 200px; height: 150px;">
-                       Tidak ada gambar
-                  </div>
+              @foreach ($diet->take(6) as $data)
+                <div class="col-lg-6 col-md-6">
+                  @if ($data->gambar)
+                  <img src="{{ asset('storage/diet/' . $data->gambar) }}" alt="Gambar" class="img-fluid rounded" style="width: 100%; height: 150px; object-fit: cover;">
+                  @else
+                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 100%; height: 150px;">
+                  Tidak ada gambar
+                </div>
                 @endif
-              </div>
-              <div class="col-lg-6">
-                <div class="row gy-4">
-                  <div class="col-lg-12">
-                    <img src="assets/img/about-company-2.jpg" class="img-fluid" alt="">
-                  </div>
-                  <div class="col-lg-12">
-                    <img src="assets/img/about-company-3.jpg" class="img-fluid" alt="">
-                  </div>
+
+          {{-- Judul dan deskripsi --}}
+              <div class="mt-2">
+                <h5 class="mb-1">{{ $data->judul }}</h5>
+                  <p class="mb-0 text-muted" style="font-size: 14px;">
+                    {{ Str::limit($data->deskripsi, 100) }}
+                  </p>
                 </div>
               </div>
+            @endforeach
             </div>
-
           </div>
-        @endforeach
-        </div>
 
       </div>
     </section><!-- /About Section -->
 
     <!-- Team Section -->
-    <section id="team" class="team section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <div class="section-title-container d-flex align-items-center justify-content-between">
-          <h2>Team</h2>
-          <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-4.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Accountant</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Team Section -->
+    <!-- /Team Section -->
 
   </main>
 

@@ -127,6 +127,12 @@ class BeritaController extends Controller
     return view('berita.detail', compact('data'));
 }
 
+public function kategori_sama($id)
+{
+    $data = Berita::findOrFail($id);
+    return view('berita.kategori_sama', compact('data'));
+}
+
 
     /**
      * Remove the specified resource from storage.

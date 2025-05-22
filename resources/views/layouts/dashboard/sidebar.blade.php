@@ -5,11 +5,11 @@
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="{{ url ('/')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Halaman User
+                                Home
                             </a>
                             <a class="nav-link" href="{{ route('kategori.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Jenis
+                                Kategori Berita
                             </a>
                             <a class="nav-link" href="{{ route('berita.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -17,7 +17,7 @@
                             </a>
                             <a class="nav-link" href="{{ route('sehat.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Berita sehat
+                                Berita Sehat
                             </a>
                             <a class="nav-link" href="{{ route('diet.index')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>

@@ -92,10 +92,20 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
     <h2 class="text-center mb-3">Artikel Kesehatan Terkini</h2>
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        @foreach ($berita->take(10) as $data)
-            <div>{{ $data->kategori->nama_kategori }}</div>
+    <form method="GET" action="{{ route('beranda') }}">
+    <select name="id_kategori" onchange="this.form.submit()">
+        <option value="">-- Semua Kategori --</option>
+        @foreach ($kategori as $kat)
+            <option value="{{ $kat->id }}" {{ request('id_kategori') == $kat->id ? 'selected' : '' }}>
+                {{ $kat->nama_kategori }}
+            </option>
         @endforeach
+    </select>
+</form>
+
+
     </div>
+
     </div>
 
 
@@ -162,7 +172,7 @@
                                 </div>
                                 <h5 class="mb-1">
                                     <a href="{{ route('berita.detail', $data->id) }}" class="text-decoration-none text-dark">
-                                    {{ \Illuminate\Support\Str::limit($data->judul, 30) }}
+                                    {{ \Illuminate\Support\Str::limit($data->judul, 40) }}
                                     </a>
                                 </h5>
                                 <p class="mb-0"><a href="{{ route('berita.detail', $data->id) }}">{{ \Illuminate\Support\Str::limit($data->deskripsi, 60) }}</a></p>

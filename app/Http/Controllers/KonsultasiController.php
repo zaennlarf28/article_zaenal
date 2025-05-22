@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sehat;
+use App\Models\Konsultasi;
 use Illuminate\Http\Request;
 
 class KonsultasiController extends Controller
@@ -16,7 +16,7 @@ class KonsultasiController extends Controller
     {
         // menampilkan data berdasarkan tanggal yang paling akhir 
         // melalui model konsultasi
-        $konsultasi = Sehat::latest()->get();
+        $konsultasi = Konsultasi::latest()->get();
         return view('konsultasi.index',compact('konsultasi'));
     }
 
@@ -43,7 +43,7 @@ class KonsultasiController extends Controller
             'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
-        $konsultasi  = new Sehat;
+        $konsultasi  = new Konsultasi;
         $konsultasi->judul = $request->judul;
         $konsultasi->deskripsi = $request->deskripsi;
         $konsultasi->penulis = $request->penulis;
@@ -68,7 +68,7 @@ class KonsultasiController extends Controller
      */
     public function show($id)
     {
-        $konsultasi = Sehat::findOrFail($id);
+        $konsultasi = Konsultasi::findOrFail($id);
         return view('konsultasi.show', compact('konsultasi'));
     }
 
@@ -80,7 +80,7 @@ class KonsultasiController extends Controller
      */
     public function edit($id)
     {
-        $konsultasi = Sehat::findOrFail($id);
+        $konsultasi = Konsultasi::findOrFail($id);
         return view('konsultasi.edit', compact('konsultasi'));
     }
 
@@ -98,7 +98,7 @@ class KonsultasiController extends Controller
             'deskripsi'  => 'required|string|max:10000',
             'gambar'  => 'required|mimes:jpg,png,jpeg,webp,avif|max:9999'
         ]);
-        $konsultasi  = Sehat::findOrfail($id);
+        $konsultasi  = Konsultasi::findOrfail($id);
         $konsultasi->judul = $request->judul;
         $konsultasi->deskripsi = $request->deskripsi;
         $konsultasi->penulis = $request->penulis;
@@ -117,7 +117,7 @@ class KonsultasiController extends Controller
     }
     public function detail($id)
 {
-    $data = Sehat::findOrFail($id);
+    $data = Konsultasi::findOrFail($id);
     return view('konsultasi.detail', compact('data'));
 }
 
@@ -129,7 +129,7 @@ class KonsultasiController extends Controller
      */
     public function destroy($id)
     {
-        $konsultasi = Sehat::findOrFail($id);
+        $konsultasi = Konsultasi::findOrFail($id);
         $konsultasi->delete();
         return redirect()->route('konsultasi.index');
     }

@@ -51,8 +51,8 @@
                                     @foreach ($berita as $data)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $data->judul }}</td>
-                                            <td>{{ $data->deskripsi }}</td>
+                                            <td>{{ Str::limit($data->judul, 50, '...') }}</td>
+                                            <td>{{ Str::limit($data->deskripsi, 80, '...') }}</td>
                                             <td>{{ $data->penulis }}</td>
                                             <td>
                                                 @if ($data->gambar)

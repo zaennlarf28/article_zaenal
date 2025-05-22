@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berita;
+use App\Models\Kategori;
 use App\Models\Sehat;
+use App\Models\Diet;
+use App\Models\Konsultasi;
 
 class FrontController extends Controller
 {
-    public function index()
-    {
-        $berita = Berita::all();
-        return view('welcome', compact('berita'));
-    }
+    public function index(Request $request)
+{
+    $kategori = Kategori::all(); // Untuk ditampilkan di halaman
+    $berita = Berita::when($request->id_kategori, function ($query) use ($request) {
+        return $query->where('id_kategori', $request->id_kategori);
+    })
+    ->orderBy('created_at', 'desc') // <-- Tambah ini
+    ->get();
+
+
+    return view('welcome', compact('berita', 'kategori'));
+}
+
 
     public function sehat()
     {
@@ -23,7 +34,7 @@ class FrontController extends Controller
 
     public function diet()
     {
-       $diet = Sehat::all();
+       $diet = Diet::all();
        return view('wellness', compact('diet'));
     }
 
