@@ -21,83 +21,60 @@
         <div class="col-lg-8">
 
           <!-- Blog Details Section -->
-          <section id="blog-details" class="blog-details section">
-            <div class="container">
+           <section class="konsultasi-section py-4 px-3" style="background-color: #e6f4f2; border-radius: 10px;">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <h5 style="color: #009688; font-weight: bold;">Konsultasi</h5>
+                <h2 style="color: #009688; font-weight: bold;">Konsultasikan masalah Anda<br>secara gratis di sini</h2>
 
-            <section class="konsultasi-section py-4 px-3" style="background-color: #e6f4f2; border-radius: 10px;">
-    <div class="row align-items-center">
-        <div class="col-md-7">
-            <h5 style="color: #009688; font-weight: bold;">Konsultasi</h5>
-            <h2 style="color: #009688; font-weight: bold;">Konsultasikan masalah Anda<br>secara gratis di sini</h2>
-            
-            <form id="formKonsultasi" method="POST" class="mt-3">
-                @csrf
-                <div class="form-group mb-2">
-                    <textarea name="pertanyaan" class="form-control" rows="3" placeholder="Tulis pertanyaan Anda di sini..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-warning text-white fw-bold">
-                    Kirim Pertanyaan <i class="bi bi-arrow-right"></i>
-                </button>
-            </form>
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
 
-            <div id="daftarPertanyaan" class="mt-4">
-                <!-- Pertanyaan akan muncul di sini -->
+                <form method="POST" action="{{ route('pertanyaan.store') }}">
+                    @csrf
+                    <div class="form-group mb-2">
+                        <textarea name="pertanyaan" class="form-control" rows="3" placeholder="Tulis pertanyaan Anda..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning text-white fw-bold">
+                        Kirim Pertanyaan <i class="bi bi-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-md-5 text-center">
+                <img src="{{ asset('storage/konsultasi/icondr.jpeg') }}" alt="Ilustrasi Dokter" class="img-fluid" style="max-height: 220px;">
             </div>
         </div>
-        <div class="col-md-5 text-center">
-            <img src="{{ asset('storage/konsultasi/icondr.jpeg') }}" alt="Ilustrasi Dokter" class="img-fluid" style="max-height: 220px;">
-        </div>
-    </div>
-</section>
+    </section>
 
+    {{-- DAFTAR PERTANYAAN --}}
+    <h2 class="mt-5">Daftar Pertanyaan</h2>
 
+    @foreach ($pertanyaan as $data)
+        <div class="card my-3">
+            <div class="card-body">
+                <h5>Pertanyaan dari: {{ $data->user_name ?? 'User' }}</h5>
+                <data>{{ $data->pertanyaan }}</data>
 
+                @if ($data->jawaban)
+                    <div class="alert alert-success">
+                        <strong>Jawaban:</strong> {{ $data->jawaban }}
+                    </div>
+                @else
+                    {{-- Form Jawaban Admin --}}
+                    @if(auth()->user() && auth()->user()->is_admin)
+                        <form action="{{ route('pertanyaan.jawab', $data->id) }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <textarea name="jawaban" class="form-control" placeholder="Tulis jawaban..." required></textarea>
+                            </div>
+                        </form>
+                    @endif
+                @endif
             </div>
-          </section><!-- /Blog Details Section -->
-
-          <!-- Blog Comments Section -->
-          <section id="team" class="team section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <div class="section-title-container d-flex align-items-center justify-content-between">
-          <h2>Dokter</h2>
-          <p>Tanya dokter disini</p>
         </div>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-          @foreach ($konsultasi as $data)
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><a href="">
-                           @if ($data->gambar)
-                                <img src="{{ asset('storage/konsultasi/' . $data->gambar) }}"
-                                     alt="Gambar"
-                                     class="img-fluid">
-                            @else
-                                <div class="bg-light d-flex align-items-center justify-content-center"
-                                     style="width: 200px; height: 150px;">
-                                    Tidak ada gambar
-                                </div>   
-                            @endif
-                </a>       </div>
-              <div class="member-info">
-                <h4>{{$data->judul}}</h4>
-                <span>{{$data->deskripsi}}</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-          @endforeach
-        </div>
-
-      </div>
-
-    </section><!-- /Blog Comments Section -->
-
-          
+    @endforeach
+          <!-- /Blog Details Section -->
 
         </div>
 
@@ -110,49 +87,29 @@
 
             <!-- Recent Posts Widget -->
             <div class="recent-posts-widget widget-item">
-
-              <h3 class="widget-title">Recent Posts</h3>
-
+               
+              <h3 class="widget-title">Dokter</h3>
+              @foreach ($konsultasi as $data)
               <div class="post-item">
-                <img src="assets/img/blog/blog-recent-1.jpg" alt="" class="flex-shrink-0">
+                <a href="{{ route('konsultasi.detail', $data->id) }}">
+                  @if ($data->gambar)
+                  <img src="{{ asset('storage/konsultasi/' . $data->gambar) }}"
+                                     alt="Gambar"
+                                     class="flex-shrink-0">
+                  @else
+                  <div class="bg-light d-flex align-items-center justify-content-center"
+                                     style="width: 200px; height: 150px;">
+                                    Tidak ada gambar
+                  </div>   
+                  @endif
+                </a>
                 <div>
-                  <h4><a href="blog-details.html">Nihil blanditiis at in nihil autem</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
+                  <h4><a href="">{{$data->judul}}</a></h4>
+                  <time datetime="2020-01-01">{{$data->deskripsi}}</time>
+                  <p><a href="https://instagram.com/{{ $data->penulis }}" target="_blank">Contact : <i class="fab fa-instagram"></i></a></p>
                 </div>
               </div><!-- End recent post item-->
-
-              <div class="post-item">
-                <img src="assets/img/blog/blog-recent-2.jpg" alt="" class="flex-shrink-0">
-                <div>
-                  <h4><a href="blog-details.html">Quidem autem et impedit</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div>
-              </div><!-- End recent post item-->
-
-              <div class="post-item">
-                <img src="assets/img/blog/blog-recent-3.jpg" alt="" class="flex-shrink-0">
-                <div>
-                  <h4><a href="blog-details.html">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div>
-              </div><!-- End recent post item-->
-
-              <div class="post-item">
-                <img src="assets/img/blog/blog-recent-4.jpg" alt="" class="flex-shrink-0">
-                <div>
-                  <h4><a href="blog-details.html">Laborum corporis quo dara net para</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div>
-              </div><!-- End recent post item-->
-
-              <div class="post-item">
-                <img src="assets/img/blog/blog-recent-5.jpg" alt="" class="flex-shrink-0">
-                <div>
-                  <h4><a href="blog-details.html">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <time datetime="2020-01-01">Jan 1, 2020</time>
-                </div>
-              </div><!-- End recent post item-->
-
+              @endforeach
             </div><!--/Recent Posts Widget -->
 
             <!-- Tags Widget -->

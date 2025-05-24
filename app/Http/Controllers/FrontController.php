@@ -9,6 +9,7 @@ use App\Models\Kategori;
 use App\Models\Sehat;
 use App\Models\Diet;
 use App\Models\Konsultasi;
+use App\Models\Pertanyaan;
 
 class FrontController extends Controller
 {
@@ -41,7 +42,9 @@ class FrontController extends Controller
     public function konsultasi()
     {
        $konsultasi = Konsultasi::all();
-       return view('konsultasi', compact('konsultasi'));
+       $pertanyaan = Pertanyaan::orderBy('created_at', 'asc')->get();
+
+       return view('konsultasi', compact('konsultasi', 'pertanyaan'));
     }
 }
 

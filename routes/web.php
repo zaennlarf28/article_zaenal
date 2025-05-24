@@ -9,6 +9,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DietController;
 use App\Http\Controllers\KonsultasiController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\PertanyaanController;
 use App\Http\Middleware\isAdmin;
 
 /*
@@ -44,6 +45,7 @@ Route::prefix('admin')->middleware('auth', isAdmin::class)->group(function () {
     Route::resource('sehat', SehatController::class);
     Route::resource('diet', DietController::class);
     Route::resource('konsultasi', KonsultasiController::class);
+    Route::resource('pertanyaan', PertanyaanController::class);
 });
 
 
@@ -64,10 +66,17 @@ Route::get('/starter_page', function () {
 Route::get('/berita/detail/{id}', [BeritaController::class, 'detail'])->name('berita.detail');
 Route::get('/berita/kategori_sama/{id}', [BeritaController::class, 'kategori_sama'])->name('berita.kategori_sama');
 Route::get('/sehat/detail/{id}', [SehatController::class, 'detail'])->name('sehat.detail');
+Route::get('/diet/detail/{id}', [DietController::class, 'detail'])->name('diet.detail');
+Route::get('/konsultasi/detail/{id}', [KonsultasiController::class, 'detail'])->name('konsultasi.detail');
 Route::get('/kategori/{id}', [BeritaController::class, 'byKategori'])->name('berita.kategori');
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function (){
     Route::get('/', function () {
         return view('admin.index'); 
     });
 });
+
+Route::get('/admin/pertanyaan', [PertanyaanController::class, 'index'])->name('pertanyaan.index');
+Route::post('/pertanyaan', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
+Route::post('/pertanyaan/jawab/{id}', [PertanyaanController::class, 'jawab'])->name('pertanyaan.jawab');

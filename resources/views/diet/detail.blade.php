@@ -28,7 +28,7 @@
               
                 <div class="post-img">
                 
-                  <img src="{{ asset('storage/berita/' . $data->gambar) }}" alt="" class="img-fluid">
+                  <img src="{{ asset('storage/diet/' . $data->gambar) }}" alt="" class="img-fluid">
                 
                 </div>
 

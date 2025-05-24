@@ -27,6 +27,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Konsultasi
                             </a>
+                            <a class="nav-link" href="{{ route('pertanyaan.index')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Pertanyaan User
+                            </a>
                             @endif
                         </div>
                     </div>
